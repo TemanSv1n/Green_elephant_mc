@@ -11,7 +11,9 @@
  *    will be REGENERATED on each build.
  *
  */
-package net.mcreator.slonik;
+package net.svisvi.slonik;
+
+import software.bernie.geckolib3.GeckoLib;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +44,7 @@ public class SlonikMod {
 
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		GeckoLib.initialize();
 	}
 
 	public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {

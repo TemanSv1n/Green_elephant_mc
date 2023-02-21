@@ -1,13 +1,10 @@
 repositories {
-    maven {
-        url "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
+  maven {
+      url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+  }
 }
+
 dependencies {
-   compileOnly fg.deobf("curse.maven:geckolib-388172:3847904")
-   runtimeOnly fg.deobf("curse.maven:geckolib-388172:3847904")
+  implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.18:3.0.57')
 }
 

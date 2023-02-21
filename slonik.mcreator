@@ -13,8 +13,9 @@
     "modid": "slonik",
     "modName": "Green elephant",
     "version": "1.0.0",
-    "author": "Admin, MCreator",
-    "websiteURL": "https://mcreator.net",
+    "description": "The best russian movie ever",
+    "author": "TemanSv1n",
+    "websiteURL": "https://andrey-golovenhcik.nethouse.ru",
     "license": "Academic Free License v3.0",
     "disableForgeVersionCheck": true,
     "serverSideOnly": false,
@@ -22,11 +23,11 @@
     "dependencies": [],
     "dependants": [],
     "mcreatorDependencies": [
-      "gecholib"
+      "geckolib"
     ],
     "currentGenerator": "forge-1.18.2",
-    "credits": "Created using mod maker MCreator - https://mcreator.net/about",
-    "modElementsPackage": "net.mcreator.slonik",
+    "credits": "Created by SviSvi",
+    "modElementsPackage": "net.svisvi.slonik",
     "lockBaseModFiles": false
   },
   "mcreatorVersion": 202300108712

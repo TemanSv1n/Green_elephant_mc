@@ -6,9 +6,12 @@ license="Academic Free License v3.0"
 modId="slonik"
 version="1.0.0"
 displayName="Green elephant"
-credits="Created using mod maker MCreator - https://mcreator.net/about"
-displayURL="https://mcreator.net"
-authors="Admin, MCreator"
+credits="Created by SviSvi"
+displayURL="https://andrey-golovenhcik.nethouse.ru"
+authors="TemanSv1n"
+description='''
+The best russian movie ever
+'''
 
 [[dependencies.slonik]]
     modId="minecraft"
@@ -20,7 +23,7 @@ authors="Admin, MCreator"
 
 
 [[dependencies.slonik]]
-    modId="gecholib"
+    modId="geckolib"
     mandatory=false
     versionRange="[0,)"
     ordering="NONE"
