@@ -18,6 +18,9 @@ import software.bernie.geckolib3.GeckoLib;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import net.svisvi.slonik.init.SlonikModTabs;
+import net.svisvi.slonik.init.SlonikModEntities;
+
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.NetworkEvent;
@@ -41,8 +44,10 @@ public class SlonikMod {
 	private static int messageID = 0;
 
 	public SlonikMod() {
-
+		SlonikModTabs.load();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+
+		SlonikModEntities.REGISTRY.register(bus);
 
 		GeckoLib.initialize();
 	}

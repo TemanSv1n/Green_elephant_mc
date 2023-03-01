@@ -1,1 +1,8 @@
-{}
+{
+  "itemGroup.tabgreenelephant": "Green Elephant",
+  "item.slonik.pahom_spawn_egg": "Pahom Spawn Egg",
+  "entity.slonik.pahom": "Pahom",
+  "subtitles.entity.pahom.hurt": "Oy!",
+  "subtitles.entity.pahom.kurlyk": "Kurlyk!",
+  "subtitles.entity.pahom.death": "Pahom dies"
+}

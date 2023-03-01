@@ -1,0 +1,32 @@
+{
+  "entity.pahom.death": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.pahom.death",
+    "sounds": [
+      {
+        "name": "slonik:pahom_death",
+        "stream": false
+      }
+    ]
+  },
+  "entity.pahom.hurt": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.pahom.hurt",
+    "sounds": [
+      {
+        "name": "slonik:pahom_hurt",
+        "stream": false
+      }
+    ]
+  },
+  "entity.pahom.kurlyk": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.pahom.kurlyk",
+    "sounds": [
+      {
+        "name": "slonik:pahom_kurlyk",
+        "stream": false
+      }
+    ]
+  }
+}

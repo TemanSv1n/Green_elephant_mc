@@ -1,9 +1,137 @@
 {
-  "mod_elements": [],
+  "mod_elements": [
+    {
+      "name": "Greenelephant",
+      "type": "tab",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "greenelephant",
+      "metadata": {
+        "files": []
+      }
+    },
+    {
+      "name": "Pahom",
+      "type": "animatedentity",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "pahom",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/entity/model/PahomModel.java",
+          "src/main/java/net/svisvi/slonik/client/renderer/PahomRenderer.java",
+          "src/main/java/net/svisvi/slonik/entity/PahomEntity.java",
+          "src/main/resources/assets/slonik/models/item/pahom_spawn_egg.json"
+        ]
+      }
+    },
+    {
+      "name": "PahomOnEntityTickUpdate",
+      "type": "procedure",
+      "sortid": 2,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "pahom_on_entity_tick_update",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/procedures/PahomOnEntityTickUpdateProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pahomattacks",
+      "type": "procedure",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "pahomattacks",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/procedures/PahomattacksProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "sourceentity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    }
+  ],
   "variable_elements": [],
-  "sound_elements": [],
+  "sound_elements": [
+    {
+      "name": "entity.pahom.death",
+      "files": [
+        "pahom_death"
+      ],
+      "category": "hostile",
+      "subtitle": "Pahom dies"
+    },
+    {
+      "name": "entity.pahom.hurt",
+      "files": [
+        "pahom_hurt"
+      ],
+      "category": "hostile",
+      "subtitle": "Oy!"
+    },
+    {
+      "name": "entity.pahom.kurlyk",
+      "files": [
+        "pahom_kurlyk"
+      ],
+      "category": "hostile",
+      "subtitle": "Kurlyk!"
+    }
+  ],
   "language_map": {
-    "en_us": {}
+    "en_us": {
+      "itemGroup.tabgreenelephant": "Green Elephant",
+      "item.slonik.pahom_spawn_egg": "Pahom Spawn Egg",
+      "entity.slonik.pahom": "Pahom",
+      "subtitles.entity.pahom.hurt": "Oy!",
+      "subtitles.entity.pahom.kurlyk": "Kurlyk!",
+      "subtitles.entity.pahom.death": "Pahom dies"
+    }
   },
   "foldersRoot": {
     "name": "~",
@@ -14,7 +142,7 @@
     "modName": "Green elephant",
     "version": "1.0.0",
     "description": "The best russian movie ever",
-    "author": "TemanSv1n",
+    "author": "TemanSv1n, Graph_Bober_IV",
     "websiteURL": "https://andrey-golovenhcik.nethouse.ru",
     "license": "Academic Free License v3.0",
     "disableForgeVersionCheck": true,

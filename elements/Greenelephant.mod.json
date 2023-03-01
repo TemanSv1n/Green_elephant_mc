@@ -1,0 +1,11 @@
+{
+  "_fv": 39,
+  "_type": "tab",
+  "definition": {
+    "name": "Green Elephant",
+    "icon": {
+      "value": "Items.TRIDENT"
+    },
+    "showSearch": false
+  }
+}
