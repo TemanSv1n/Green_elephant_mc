@@ -245,6 +245,18 @@
           }
         ]
       }
+    },
+    {
+      "name": "Bbbbbb",
+      "type": "recipe",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "bbbbbb",
+      "metadata": {
+        "files": [
+          "src/main/resources/data/slonik/recipes/bbbbbb.json"
+        ]
+      }
     }
   ],
   "variable_elements": [],
