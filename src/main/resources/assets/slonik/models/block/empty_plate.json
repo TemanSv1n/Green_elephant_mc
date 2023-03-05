@@ -1,0 +1,8 @@
+{
+  "parent": "slonik:custom/plate_empty",
+  "textures": {
+    "all": "slonik:blocks/plate",
+    "particle": "slonik:blocks/plate",
+    "0": "slonik:blocks/plate"
+  }
+}

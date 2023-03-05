@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "slonik:block/breadplate"
+    },
+    "facing=east": {
+      "model": "slonik:block/breadplate",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "slonik:block/breadplate",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "slonik:block/breadplate",
+      "y": 270
+    }
+  }
+}

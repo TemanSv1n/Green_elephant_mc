@@ -15,9 +15,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +31,7 @@ import net.minecraft.core.BlockPos;
 import javax.annotation.Nullable;
 
 import java.util.stream.Collectors;
+import java.util.Random;
 import java.util.List;
 import java.util.Comparator;
 
@@ -49,7 +54,8 @@ public class PahomattacksProcedure {
 		DamageSource pahom = new DamageSource("generic");
 		pahom = new EntityDamageSource("cramming.player", sourceentity);
 		if (sourceentity instanceof PahomEntity) {
-			if (true) {
+			if (sourceentity.getPersistentData().getBoolean("charging") == false && !(((PahomEntity) sourceentity).animationprocedure).equals("kurlyk") && !(((PahomEntity) sourceentity).animationprocedure).equals("bread")
+					&& !(((PahomEntity) sourceentity).animationprocedure).equals("cast")) {
 				if (sourceentity instanceof PahomEntity) {
 					((PahomEntity) sourceentity).setAnimation("attack");
 				}
@@ -96,9 +102,25 @@ public class PahomattacksProcedure {
 									.collect(Collectors.toList());
 							for (Entity entityiterator : _entfound) {
 								if (!(sourceentity == entityiterator)) {
-									entityiterator.hurt(new EntityDamageSource("cramming.player", sourceentity), 5);
 									if (world instanceof ServerLevel _level)
 										_level.sendParticles(ParticleTypes.ASH, (entityiterator.getX()), (entityiterator.getY()), (entityiterator.getZ()), 20, 0.7, 0.7, 0.7, 0.1);
+									if (!(entityiterator instanceof LivingEntity _livEnt ? _livEnt.isBlocking() : false)) {
+										entityiterator.hurt(new EntityDamageSource("cramming.player", sourceentity), Mth.nextInt(new Random(), 5, 7));
+									} else {
+										if (entityiterator instanceof Player _player)
+											_player.getCooldowns().addCooldown((entityiterator instanceof LivingEntity _livEnt ? _livEnt.getMainHandItem() : ItemStack.EMPTY).getItem(), 100);
+										if (entityiterator instanceof Player _player)
+											_player.getCooldowns().addCooldown((entityiterator instanceof LivingEntity _livEnt ? _livEnt.getOffhandItem() : ItemStack.EMPTY).getItem(), 100);
+										if (world instanceof Level _level) {
+											if (!_level.isClientSide()) {
+												_level.playSound(null, new BlockPos(entityiterator.getX(), entityiterator.getY(), entityiterator.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.shield.block")),
+														SoundSource.PLAYERS, 1, 1);
+											} else {
+												_level.playLocalSound((entityiterator.getX()), (entityiterator.getY()), (entityiterator.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.shield.block")), SoundSource.PLAYERS, 1,
+														1, false);
+											}
+										}
+									}
 								}
 							}
 						}

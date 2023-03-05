@@ -11,26 +11,27 @@ import software.bernie.geckolib3.core.builder.AnimationBuilder;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.IAnimatable;
 
-import net.svisvi.slonik.procedures.PahomOnEntityTickUpdateProcedure;
-import net.svisvi.slonik.procedures.PahomEntityIsHurtProcedure;
+import net.svisvi.slonik.procedures.FlyOnEntityTickUpdateProcedure;
 import net.svisvi.slonik.init.SlonikModEntities;
 
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.network.NetworkHooks;
 
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.Pose;
@@ -42,34 +43,35 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.core.BlockPos;
 
-public class PahomEntity extends Monster implements IAnimatable {
-	public static final EntityDataAccessor<Boolean> SHOOT = SynchedEntityData.defineId(PahomEntity.class, EntityDataSerializers.BOOLEAN);
-	public static final EntityDataAccessor<String> ANIMATION = SynchedEntityData.defineId(PahomEntity.class, EntityDataSerializers.STRING);
-	public static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(PahomEntity.class, EntityDataSerializers.STRING);
+import java.util.Random;
+import java.util.EnumSet;
+
+public class FlyEntity extends Monster implements IAnimatable {
+	public static final EntityDataAccessor<Boolean> SHOOT = SynchedEntityData.defineId(FlyEntity.class, EntityDataSerializers.BOOLEAN);
+	public static final EntityDataAccessor<String> ANIMATION = SynchedEntityData.defineId(FlyEntity.class, EntityDataSerializers.STRING);
+	public static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(FlyEntity.class, EntityDataSerializers.STRING);
 	private AnimationFactory factory = GeckoLibUtil.createFactory(this);
 	private boolean swinging;
 	private boolean lastloop;
 	private long lastSwing;
 	public String animationprocedure = "empty";
-	private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.GREEN, ServerBossEvent.BossBarOverlay.PROGRESS);
 
-	public PahomEntity(PlayMessages.SpawnEntity packet, Level world) {
-		this(SlonikModEntities.PAHOM.get(), world);
+	public FlyEntity(PlayMessages.SpawnEntity packet, Level world) {
+		this(SlonikModEntities.FLY.get(), world);
 	}
 
-	public PahomEntity(EntityType<PahomEntity> type, Level world) {
+	public FlyEntity(EntityType<FlyEntity> type, Level world) {
 		super(type, world);
-		xpReward = 10;
+		xpReward = 1;
 		setNoAi(false);
-		setPersistenceRequired();
+		this.moveControl = new FlyingMoveControl(this, 10, true);
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class PahomEntity extends Monster implements IAnimatable {
 		super.defineSynchedData();
 		this.entityData.define(SHOOT, false);
 		this.entityData.define(ANIMATION, "undefined");
-		this.entityData.define(TEXTURE, "texture");
+		this.entityData.define(TEXTURE, "fly");
 	}
 
 	public void setTexture(String texture) {
@@ -90,7 +92,7 @@ public class PahomEntity extends Monster implements IAnimatable {
 
 	@Override
 	protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-		return 2.5F;
+		return 0.30000000000000004F;
 	}
 
 	@Override
@@ -99,22 +101,71 @@ public class PahomEntity extends Monster implements IAnimatable {
 	}
 
 	@Override
+	protected PathNavigation createNavigation(Level world) {
+		return new FlyingPathNavigation(this, world);
+	}
+
+	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false) {
+		this.goalSelector.addGoal(1, new Goal() {
+			{
+				this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+			}
+
+			public boolean canUse() {
+				if (FlyEntity.this.getTarget() != null && !FlyEntity.this.getMoveControl().hasWanted()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			@Override
+			public boolean canContinueToUse() {
+				return FlyEntity.this.getMoveControl().hasWanted() && FlyEntity.this.getTarget() != null && FlyEntity.this.getTarget().isAlive();
+			}
+
+			@Override
+			public void start() {
+				LivingEntity livingentity = FlyEntity.this.getTarget();
+				Vec3 vec3d = livingentity.getEyePosition(1);
+				FlyEntity.this.moveControl.setWantedPosition(vec3d.x, vec3d.y, vec3d.z, 3.2);
+			}
+
+			@Override
+			public void tick() {
+				LivingEntity livingentity = FlyEntity.this.getTarget();
+				if (FlyEntity.this.getBoundingBox().intersects(livingentity.getBoundingBox())) {
+					FlyEntity.this.doHurtTarget(livingentity);
+				} else {
+					double d0 = FlyEntity.this.distanceToSqr(livingentity);
+					if (d0 < 64) {
+						Vec3 vec3d = livingentity.getEyePosition(1);
+						FlyEntity.this.moveControl.setWantedPosition(vec3d.x, vec3d.y, vec3d.z, 3.2);
+					}
+				}
+			}
+		});
+		this.goalSelector.addGoal(2, new RandomStrollGoal(this, 2, 20) {
+			@Override
+			protected Vec3 getPosition() {
+				Random random = FlyEntity.this.getRandom();
+				double dir_x = FlyEntity.this.getX() + ((random.nextFloat() * 2 - 1) * 16);
+				double dir_y = FlyEntity.this.getY() + ((random.nextFloat() * 2 - 1) * 16);
+				double dir_z = FlyEntity.this.getZ() + ((random.nextFloat() * 2 - 1) * 16);
+				return new Vec3(dir_x, dir_y, dir_z);
+			}
+		});
+		this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 3.5, false) {
 			@Override
 			protected double getAttackReachSqr(LivingEntity entity) {
 				return this.mob.getBbWidth() * this.mob.getBbWidth() + entity.getBbWidth();
 			}
 		});
-		this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-		this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, (float) 16));
-		this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.8));
-		this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-		this.goalSelector.addGoal(6, new FloatGoal(this));
-		this.targetSelector.addGoal(7, new NearestAttackableTargetGoal(this, Player.class, false, false));
-		this.goalSelector.addGoal(8, new OpenDoorGoal(this, true));
-		this.goalSelector.addGoal(9, new PanicGoal(this, 1.2));
+		this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+		this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Player.class, false, false));
+		this.targetSelector.addGoal(6, new HurtByTargetGoal(this));
 	}
 
 	@Override
@@ -123,32 +174,24 @@ public class PahomEntity extends Monster implements IAnimatable {
 	}
 
 	@Override
-	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-		return false;
-	}
-
-	@Override
 	public SoundEvent getHurtSound(DamageSource ds) {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("slonik:entity.pahom.hurt"));
+		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.bee.hurt"));
 	}
 
 	@Override
 	public SoundEvent getDeathSound() {
-		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("slonik:entity.pahom.death"));
+		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.bee.death"));
 	}
 
 	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		PahomEntityIsHurtProcedure.execute(this.level, this);
-		if (source == DamageSource.CACTUS)
-			return false;
-		return super.hurt(source, amount);
+	public boolean causeFallDamage(float l, float d, DamageSource source) {
+		return false;
 	}
 
 	@Override
 	public void baseTick() {
 		super.baseTick();
-		PahomOnEntityTickUpdateProcedure.execute(this.level, this.getX(), this.getY(), this.getZ(), this);
+		FlyOnEntityTickUpdateProcedure.execute(this.level, this.getX(), this.getY(), this.getZ(), this);
 		this.refreshDimensions();
 	}
 
@@ -158,26 +201,17 @@ public class PahomEntity extends Monster implements IAnimatable {
 	}
 
 	@Override
-	public boolean canChangeDimensions() {
-		return false;
+	protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
 	}
 
 	@Override
-	public void startSeenByPlayer(ServerPlayer player) {
-		super.startSeenByPlayer(player);
-		this.bossInfo.addPlayer(player);
+	public void setNoGravity(boolean ignored) {
+		super.setNoGravity(true);
 	}
 
-	@Override
-	public void stopSeenByPlayer(ServerPlayer player) {
-		super.stopSeenByPlayer(player);
-		this.bossInfo.removePlayer(player);
-	}
-
-	@Override
-	public void customServerAiStep() {
-		super.customServerAiStep();
-		this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
+	public void aiStep() {
+		super.aiStep();
+		this.setNoGravity(true);
 	}
 
 	public static void init() {
@@ -185,34 +219,23 @@ public class PahomEntity extends Monster implements IAnimatable {
 
 	public static AttributeSupplier.Builder createAttributes() {
 		AttributeSupplier.Builder builder = Mob.createMobAttributes();
-		builder = builder.add(Attributes.MOVEMENT_SPEED, 0.26);
-		builder = builder.add(Attributes.MAX_HEALTH, 150);
-		builder = builder.add(Attributes.ARMOR, 7);
-		builder = builder.add(Attributes.ATTACK_DAMAGE, 0);
+		builder = builder.add(Attributes.MOVEMENT_SPEED, 0.4);
+		builder = builder.add(Attributes.MAX_HEALTH, 4);
+		builder = builder.add(Attributes.ARMOR, 0.5);
+		builder = builder.add(Attributes.ATTACK_DAMAGE, 1);
 		builder = builder.add(Attributes.FOLLOW_RANGE, 16);
-		builder = builder.add(Attributes.KNOCKBACK_RESISTANCE, 0.1);
-		builder = builder.add(Attributes.ATTACK_KNOCKBACK, 0.1);
+		builder = builder.add(Attributes.FLYING_SPEED, 0.4);
 		return builder;
 	}
 
 	private <E extends IAnimatable> PlayState movementPredicate(AnimationEvent<E> event) {
 		if (this.animationprocedure.equals("empty")) {
-			if ((event.isMoving() || !(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F))
-
-			) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("walk", EDefaultLoopTypes.LOOP));
+			if ((event.isMoving() || !(event.getLimbSwingAmount() > -0.15F && event.getLimbSwingAmount() < 0.15F)) && this.isOnGround()) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
 				return PlayState.CONTINUE;
 			}
-			if (this.isDeadOrDying()) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("death", EDefaultLoopTypes.PLAY_ONCE));
-				return PlayState.CONTINUE;
-			}
-			if (this.isShiftKeyDown()) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("bread", EDefaultLoopTypes.LOOP));
-				return PlayState.CONTINUE;
-			}
-			if (this.isSprinting()) {
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("kurlyk", EDefaultLoopTypes.LOOP));
+			if (!this.isOnGround()) {
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
 				return PlayState.CONTINUE;
 			}
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", EDefaultLoopTypes.LOOP));
@@ -253,7 +276,7 @@ public class PahomEntity extends Monster implements IAnimatable {
 	protected void tickDeath() {
 		++this.deathTime;
 		if (this.deathTime == 20) {
-			this.remove(PahomEntity.RemovalReason.KILLED);
+			this.remove(FlyEntity.RemovalReason.KILLED);
 			this.dropExperience();
 		}
 	}

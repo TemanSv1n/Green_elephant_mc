@@ -5,6 +5,7 @@
 package net.svisvi.slonik.init;
 
 import net.svisvi.slonik.entity.PahomEntity;
+import net.svisvi.slonik.entity.FlyEntity;
 import net.svisvi.slonik.SlonikMod;
 
 import net.minecraftforge.registries.RegistryObject;
@@ -22,6 +23,10 @@ import net.minecraft.world.entity.Entity;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SlonikModEntities {
 	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, SlonikMod.MODID);
+	public static final RegistryObject<EntityType<FlyEntity>> FLY = register("fly",
+			EntityType.Builder.<FlyEntity>of(FlyEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(FlyEntity::new)
+
+					.sized(0.6f, 0.6f));
 	public static final RegistryObject<EntityType<PahomEntity>> PAHOM = register("pahom",
 			EntityType.Builder.<PahomEntity>of(PahomEntity::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(PahomEntity::new)
 

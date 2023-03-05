@@ -55,7 +55,7 @@
     "attackKnockback": 0.1,
     "knockbackResistance": 0.1,
     "movementSpeed": 0.26,
-    "armorBaseValue": 3.0,
+    "armorBaseValue": 7.0,
     "trackingRange": 64,
     "followRange": 16,
     "health": 150,
@@ -98,6 +98,9 @@
     },
     "stepSound": {
       "value": ""
+    },
+    "whenMobIsHurt": {
+      "name": "PahomEntityIsHurt"
     },
     "onMobTickUpdate": {
       "name": "PahomOnEntityTickUpdate"

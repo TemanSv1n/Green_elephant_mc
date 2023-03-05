@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "slonik:block/empty_plate"
+    },
+    "facing=east": {
+      "model": "slonik:block/empty_plate",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "slonik:block/empty_plate",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "slonik:block/empty_plate",
+      "y": 270
+    }
+  }
+}

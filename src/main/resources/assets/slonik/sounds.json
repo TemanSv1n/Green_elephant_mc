@@ -28,5 +28,25 @@
         "stream": false
       }
     ]
+  },
+  "entity.pahom.flies": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.pahom.flies",
+    "sounds": [
+      {
+        "name": "slonik:pahom_muhi",
+        "stream": false
+      }
+    ]
+  },
+  "entity.pahom.spawned": {
+    "category": "hostile",
+    "subtitle": "subtitles.entity.pahom.spawned",
+    "sounds": [
+      {
+        "name": "slonik:pahom_spawn",
+        "stream": false
+      }
+    ]
   }
 }

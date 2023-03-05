@@ -19,7 +19,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import net.svisvi.slonik.init.SlonikModTabs;
+import net.svisvi.slonik.init.SlonikModParticleTypes;
+import net.svisvi.slonik.init.SlonikModItems;
 import net.svisvi.slonik.init.SlonikModEntities;
+import net.svisvi.slonik.init.SlonikModBlocks;
 
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.network.NetworkRegistry;
@@ -46,9 +49,11 @@ public class SlonikMod {
 	public SlonikMod() {
 		SlonikModTabs.load();
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
+		SlonikModBlocks.REGISTRY.register(bus);
+		SlonikModItems.REGISTRY.register(bus);
 		SlonikModEntities.REGISTRY.register(bus);
 
+		SlonikModParticleTypes.REGISTRY.register(bus);
 		GeckoLib.initialize();
 	}
 

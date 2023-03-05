@@ -21,6 +21,8 @@ public class SlonikModSounds {
 		REGISTRY.put(new ResourceLocation("slonik", "entity.pahom.death"), new SoundEvent(new ResourceLocation("slonik", "entity.pahom.death")));
 		REGISTRY.put(new ResourceLocation("slonik", "entity.pahom.hurt"), new SoundEvent(new ResourceLocation("slonik", "entity.pahom.hurt")));
 		REGISTRY.put(new ResourceLocation("slonik", "entity.pahom.kurlyk"), new SoundEvent(new ResourceLocation("slonik", "entity.pahom.kurlyk")));
+		REGISTRY.put(new ResourceLocation("slonik", "entity.pahom.flies"), new SoundEvent(new ResourceLocation("slonik", "entity.pahom.flies")));
+		REGISTRY.put(new ResourceLocation("slonik", "entity.pahom.spawned"), new SoundEvent(new ResourceLocation("slonik", "entity.pahom.spawned")));
 	}
 
 	@SubscribeEvent

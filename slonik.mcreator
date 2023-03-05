@@ -13,6 +13,7 @@
     {
       "name": "Pahom",
       "type": "animatedentity",
+      "sortid": 5,
       "compiles": true,
       "locked_code": false,
       "registry_name": "pahom",
@@ -94,6 +95,156 @@
           }
         ]
       }
+    },
+    {
+      "name": "PahomEntityIsHurt",
+      "type": "procedure",
+      "sortid": 3,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "pahom_entity_is_hurt",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/procedures/PahomEntityIsHurtProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fly",
+      "type": "animatedentity",
+      "sortid": 4,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "fly",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/slonik/models/item/fly_spawn_egg.json",
+          "src/main/java/net/svisvi/slonik/entity/FlyEntity.java",
+          "src/main/java/net/svisvi/slonik/client/renderer/FlyRenderer.java",
+          "src/main/java/net/svisvi/slonik/entity/model/FlyModel.java"
+        ]
+      }
+    },
+    {
+      "name": "FlyOnEntityTickUpdate",
+      "type": "procedure",
+      "sortid": 6,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "fly_on_entity_tick_update",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/procedures/FlyOnEntityTickUpdateProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Shitdripparticle",
+      "type": "particle",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "shit_drip_particle",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/slonik/particles/shit_drip_particle.json",
+          "src/main/java/net/svisvi/slonik/client/particle/ShitdripparticleParticle.java"
+        ]
+      }
+    },
+    {
+      "name": "Emptyplate",
+      "type": "block",
+      "sortid": 8,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "empty_plate",
+      "metadata": {
+        "files": [
+          "src/main/resources/assets/slonik/models/item/empty_plate.json",
+          "src/main/java/net/svisvi/slonik/block/EmptyplateBlock.java",
+          "src/main/resources/assets/slonik/models/block/empty_plate.json",
+          "src/main/resources/assets/slonik/blockstates/empty_plate.json"
+        ]
+      }
+    },
+    {
+      "name": "Breadplate",
+      "type": "block",
+      "sortid": 7,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "breadplate",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/block/BreadplateBlock.java",
+          "src/main/resources/assets/slonik/models/item/breadplate.json",
+          "src/main/resources/assets/slonik/blockstates/breadplate.json",
+          "src/main/resources/assets/slonik/models/block/breadplate.json"
+        ]
+      }
+    },
+    {
+      "name": "EmptyplateBlockAdded",
+      "type": "procedure",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "emptyplate_block_added",
+      "metadata": {
+        "files": [
+          "src/main/java/net/svisvi/slonik/procedures/EmptyplateBlockAddedProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
     }
   ],
   "variable_elements": [],
@@ -121,16 +272,38 @@
       ],
       "category": "hostile",
       "subtitle": "Kurlyk!"
+    },
+    {
+      "name": "entity.pahom.flies",
+      "files": [
+        "pahom_muhi"
+      ],
+      "category": "hostile",
+      "subtitle": "Flies disturb sleeping!"
+    },
+    {
+      "name": "entity.pahom.spawned",
+      "files": [
+        "pahom_spawn"
+      ],
+      "category": "hostile",
+      "subtitle": "Zdraste! Zdrastitya!"
     }
   ],
   "language_map": {
     "en_us": {
-      "itemGroup.tabgreenelephant": "Green Elephant",
       "item.slonik.pahom_spawn_egg": "Pahom Spawn Egg",
+      "subtitles.entity.pahom.kurlyk": "Kurlyk!",
+      "subtitles.entity.pahom.spawned": "Zdraste! Zdrastitya!",
+      "itemGroup.tabgreenelephant": "Green Elephant",
+      "block.slonik.breadplate": "Plate",
       "entity.slonik.pahom": "Pahom",
       "subtitles.entity.pahom.hurt": "Oy!",
-      "subtitles.entity.pahom.kurlyk": "Kurlyk!",
-      "subtitles.entity.pahom.death": "Pahom dies"
+      "subtitles.entity.pahom.flies": "Flies disturb sleeping!",
+      "entity.slonik.fly": "Fly",
+      "subtitles.entity.pahom.death": "Pahom dies",
+      "item.slonik.fly_spawn_egg": "Fly Spawn Egg",
+      "block.slonik.empty_plate": "Plate"
     }
   },
   "foldersRoot": {

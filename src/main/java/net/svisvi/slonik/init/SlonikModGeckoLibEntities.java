@@ -2,6 +2,7 @@ package net.svisvi.slonik.init;
 
 import net.svisvi.slonik.entity.spawneggs.GeckoLibSpawnEggs;
 import net.svisvi.slonik.entity.PahomEntity;
+import net.svisvi.slonik.entity.FlyEntity;
 import net.svisvi.slonik.SlonikMod;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,12 +24,14 @@ public class SlonikModGeckoLibEntities {
 	@SubscribeEvent
 	public static void init(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
+			FlyEntity.init();
 			PahomEntity.init();
 		});
 	}
 
 	@SubscribeEvent
 	public static void registerAttributes(EntityAttributeCreationEvent event) {
+		event.put(SlonikModEntities.FLY.get(), FlyEntity.createAttributes().build());
 		event.put(SlonikModEntities.PAHOM.get(), PahomEntity.createAttributes().build());
 	}
 }

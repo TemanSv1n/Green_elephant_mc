@@ -1,0 +1,9 @@
+{
+  "parent": "slonik:custom/plate_bread",
+  "textures": {
+    "all": "slonik:blocks/sweet_bread",
+    "particle": "slonik:blocks/sweet_bread",
+    "0": "slonik:blocks/plate",
+    "1": "slonik:blocks/sweet_bread"
+  }
+}

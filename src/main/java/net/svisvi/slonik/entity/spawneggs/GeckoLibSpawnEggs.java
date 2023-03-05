@@ -14,5 +14,6 @@ import net.minecraft.world.item.Item;
 public class GeckoLibSpawnEggs {
 	public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, SlonikMod.MODID);
 
+	public static final RegistryObject<Item> FLY = REGISTRY.register("fly_spawn_egg", () -> new ForgeSpawnEggItem(SlonikModEntities.FLY, -10066330, -52429, new Item.Properties().tab(SlonikModTabs.TAB_GREENELEPHANT)));
 	public static final RegistryObject<Item> PAHOM = REGISTRY.register("pahom_spawn_egg", () -> new ForgeSpawnEggItem(SlonikModEntities.PAHOM, -13408768, -205, new Item.Properties().tab(SlonikModTabs.TAB_GREENELEPHANT)));
 }

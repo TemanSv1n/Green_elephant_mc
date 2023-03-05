@@ -1,8 +1,14 @@
 {
-  "itemGroup.tabgreenelephant": "Green Elephant",
   "item.slonik.pahom_spawn_egg": "Pahom Spawn Egg",
+  "subtitles.entity.pahom.kurlyk": "Kurlyk!",
+  "subtitles.entity.pahom.spawned": "Zdraste! Zdrastitya!",
+  "itemGroup.tabgreenelephant": "Green Elephant",
+  "block.slonik.breadplate": "Plate",
   "entity.slonik.pahom": "Pahom",
   "subtitles.entity.pahom.hurt": "Oy!",
-  "subtitles.entity.pahom.kurlyk": "Kurlyk!",
-  "subtitles.entity.pahom.death": "Pahom dies"
+  "subtitles.entity.pahom.flies": "Flies disturb sleeping!",
+  "entity.slonik.fly": "Fly",
+  "subtitles.entity.pahom.death": "Pahom dies",
+  "item.slonik.fly_spawn_egg": "Fly Spawn Egg",
+  "block.slonik.empty_plate": "Plate"
 }
