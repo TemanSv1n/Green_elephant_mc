@@ -247,35 +247,6 @@
           }
         ]
       }
-    },
-    {
-      "name": "Bbbbbb",
-      "type": "recipe",
-      "sortid": 12,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "bbbbbb",
-      "metadata": {
-        "files": [
-          "src/main/resources/data/slonik/recipes/bbbbbb.json"
-        ]
-      }
-    },
-    {
-      "name": "Psk",
-      "type": "block",
-      "sortid": 13,
-      "compiles": true,
-      "locked_code": false,
-      "registry_name": "psk",
-      "metadata": {
-        "files": [
-          "src/main/resources/assets/slonik/models/item/psk.json",
-          "src/main/resources/assets/slonik/blockstates/psk.json",
-          "src/main/resources/assets/slonik/models/block/psk.json",
-          "src/main/java/net/svisvi/slonik/block/PskBlock.java"
-        ]
-      }
     }
   ],
   "variable_elements": [],
@@ -331,7 +302,6 @@
       "entity.slonik.pahom": "Pahom",
       "subtitles.entity.pahom.hurt": "Oy!",
       "subtitles.entity.pahom.flies": "Flies disturb sleeping!",
-      "block.slonik.psk": "Psk",
       "entity.slonik.fly": "Fly",
       "subtitles.entity.pahom.death": "Pahom dies",
       "item.slonik.fly_spawn_egg": "Fly Spawn Egg",
