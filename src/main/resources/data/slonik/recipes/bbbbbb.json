@@ -1,15 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "0"
+    "01"
   ],
   "key": {
     "0": {
-      "tag": "forge:ores/quartz"
+      "item": "minecraft:command_block"
+    },
+    "1": {
+      "item": "slonik:empty_plate"
     }
   },
   "result": {
-    "item": "minecraft:rail",
+    "item": "minecraft:command_block",
     "count": 1
   }
 }

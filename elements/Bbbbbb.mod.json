@@ -22,10 +22,10 @@
         "value": ""
       },
       {
-        "value": "Blocks.QUARTZ_BLOCK"
+        "value": "Blocks.COMMAND_BLOCK"
       },
       {
-        "value": ""
+        "value": "CUSTOM:Emptyplate"
       },
       {
         "value": ""
@@ -38,7 +38,7 @@
       }
     ],
     "recipeReturnStack": {
-      "value": "Blocks.RAIL"
+      "value": "Blocks.COMMAND_BLOCK"
     },
     "name": "bbbbbb",
     "namespace": "mod"
